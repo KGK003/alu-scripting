@@ -1,10 +1,27 @@
 #!/usr/bin/python3
-""" top_ten.py """
+"""
+top_ten.py
+
+This script queries the Reddit API to retrieve the titles of the first 10 hot posts
+from a given subreddit. If the subreddit does not exist or there is a request error,
+it prints None.
+
+Usage:
+    python3 1-main.py <subreddit>
+"""
+
 import requests
 
 
 def top_ten(subreddit):
-    """Prints the titles of the first 10 hot posts listed in a subreddit"""
+    """
+    Prints the titles of the first 10 hot posts listed in a subreddit.
+
+    Args:
+        subreddit (str): The subreddit name to query.
+
+    If the subreddit is invalid or an error occurs, it prints None.
+    """
     url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=10'
     
     # More realistic User-Agent string to avoid being blocked
@@ -29,3 +46,4 @@ def top_ten(subreddit):
 
     except requests.exceptions.RequestException:
         print(None)  # If a network or other exception occurs
+
