@@ -1,49 +1,18 @@
 #!/usr/bin/python3
-"""
-top_ten.py
-
-This script queries the Reddit API to retrieve the titles of the first 10 hot posts
-from a given subreddit. If the subreddit does not exist or there is a request error,
-it prints None.
-
-Usage:
-    python3 1-main.py <subreddit>
-"""
-
+""" top_ten.py """
 import requests
 
 
 def top_ten(subreddit):
-    """
-    Prints the titles of the first 10 hot posts listed in a subreddit.
-
-    Args:
-        subreddit (str): The subreddit name to query.
-
-    If the subreddit is invalid or an error occurs, it prints None.
-    """
-    url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=10'
-    
-    # More realistic User-Agent string to avoid being blocked
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-    }
-
-    try:
-        response = requests.get(url, headers=headers, allow_redirects=False)
-
-        # Check for response status code
-        if response.status_code != 200:
-            print(None)  # Invalid subreddit or other issues
-        else:
-            # If the status code is 200, process the response
-            data = response.json()
-            posts = data.get('data', {}).get('children', [])
-
-            # Print the titles of the first 10 posts
-            for post in posts:
-                print(post['data']['title'])
-
-    except requests.exceptions.RequestException:
-        print(None)  # If a network or other exception occurs
-
+    """ prints the titles of the first 10 hot posts listed in a subreddit """
+    url = 'https://www.reddit.com/r/{}/hot.json?limit=10'.format(subreddit)
+    headers = {'User-Agent': 'Chrome/1.0'}
+    response = requests.get(url, headers=headers, allow_redirects=False)
+    # print(response)
+    print(response.text[189097:])
+    if response.status_code != 200:
+        print(None)
+    else:
+        posts = response.json().get('data').get('children')
+        for post in posts:
+            print(post['data']['title'])
